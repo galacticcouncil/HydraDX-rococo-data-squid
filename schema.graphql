@@ -1,0 +1,68 @@
+type Account @entity {
+  "Account pubkey"
+  id: ID!
+  transfersTo: [Transfer!] @derivedFrom(field: "to")
+  transfersFrom: [Transfer!] @derivedFrom(field: "from")
+}
+
+enum PoolType {
+  XYK
+  LBP
+}
+
+type BlockHeader @entity {
+  "blockNumber"
+  id: ID!
+  hash: String!
+  createdAt: DateTime!
+  paraChainBlockHeight: BigInt!
+  relayChainBlockHeight: BigInt!
+}
+
+type Transfer @entity {
+  id: ID!
+  assetId: Int! @index
+  block: BlockHeader
+  extrinsicHash: String @index
+  from: Account!
+  to: Account!
+  amount: BigInt! @index
+  fee: BigInt!
+}
+
+type LBPPoolData @entity {
+  id: ID!
+  owner: Account
+  feeCollector: Account
+  fee: [Int]
+  startBlockNumber: Int
+  endBlockNumber: Int
+  repayTarget: BigInt
+  initialWeight: Int
+  finalWeight: Int
+}
+
+type Pool @entity {
+  id: ID!
+  account: Account!
+  assetAId: Int!
+  assetBId: Int!
+  assetABalance: BigInt!
+  assetBBalance: BigInt!
+  poolType: PoolType!
+  createdAtParaBlock: Int!
+  createdAt: DateTime!
+  historicalBalances: [HistoricalPoolPriceData!]! @derivedFrom(field: "pool")
+}
+
+type HistoricalPoolPriceData @entity {
+  "PoolId-paraChainBlockHeight"
+  id: ID!
+  poolType: PoolType!
+  assetABalance: BigInt!
+  assetBBalance: BigInt!
+  pool: Pool!
+  relayChainBlockHeight: Int!
+  paraChainBlockHeight: Int!
+  block: BlockHeader
+}

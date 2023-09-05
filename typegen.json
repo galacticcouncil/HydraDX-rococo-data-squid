@@ -1,0 +1,13 @@
+{
+  "outDir": "src/types",
+  "specVersions": "https://hydradx-rococo-firesquid.play.hydration.cloud/graphql",
+  "events": [
+    "Balances.Transfer",
+    "Tokens.Transfer",
+    "LBP.PoolUpdated",
+    "LBP.PoolCreated"
+  ],
+  "calls": ["ParachainSystem.set_validation_data"],
+  "storage": true,
+  "constants": true
+}
