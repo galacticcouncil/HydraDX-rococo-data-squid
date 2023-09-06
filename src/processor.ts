@@ -9,12 +9,8 @@ import {
 
 export const processor = new SubstrateBatchProcessor()
   .setDataSource({
-    // Lookup archive by the network name in the Subsquid registry
-    //archive: lookupArchive("kusama", {release: "FireSquid"})
-
-    // Use archive created by archive/docker-compose.yml
-    archive: "https://hydradx-rococo-firesquid.play.hydration.cloud/graphql",
-    chain: "wss://hydradx-rococo-rpc.play.hydration.cloud",
+    archive: process.env.ARCHIVE || "https://hydradx-rococo-firesquid.play.hydration.cloud/graphql",
+    chain: process.env.RPC || "wss://hydradx-rococo-rpc.play.hydration.cloud",
   })
   .addEvent("Balances.Transfer", {
     data: {
