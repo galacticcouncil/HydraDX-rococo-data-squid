@@ -11,8 +11,6 @@ services:
       DB_PASS: postgres
       DB_PORT: '5432'
       GQL_PORT: '4350'
-      ARCHIVE: https://hydradx-rococo-firesquid.play.hydration.cloud/graphql
-      RPC: wss://hydradx-rococo-rpc.play.hydration.cloud
     networks:
       - default
     logging:
@@ -43,6 +41,8 @@ services:
       DB_NAME: squid
       DB_PASS: postgres
       DB_PORT: '5432'
+      ARCHIVE: https://hydradx-rococo-firesquid.play.hydration.cloud/graphql
+      RPC: wss://hydradx-rococo-rpc.play.hydration.cloud
     networks:
       - default
     logging:
