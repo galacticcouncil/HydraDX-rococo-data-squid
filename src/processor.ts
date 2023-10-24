@@ -49,7 +49,7 @@ export const processor = new SubstrateBatchProcessor()
     },
   } as const)
   .addCall("ParachainSystem.set_validation_data", {} as const)
-  .setBlockRange({ from: 1650000 });
+  .setBlockRange({ from: Number(process.env.FROM_BLOCK) || 1650000 });
 
 export type Item = BatchProcessorItem<typeof processor>;
 export type EventItem = BatchProcessorEventItem<typeof processor>;
