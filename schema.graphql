@@ -5,11 +5,6 @@ type Account @entity {
   transfersFrom: [Transfer!] @derivedFrom(field: "from")
 }
 
-enum PoolType {
-  XYK
-  LBP
-}
-
 type BlockHeader @entity {
   "blockNumber"
   id: ID!
@@ -49,7 +44,6 @@ type Pool @entity {
   assetBId: Int!
   assetABalance: BigInt!
   assetBBalance: BigInt!
-  poolType: PoolType!
   createdAtParaBlock: Int!
   createdAt: DateTime!
   historicalBalances: [HistoricalPoolPriceData!]! @derivedFrom(field: "pool")
@@ -58,7 +52,6 @@ type Pool @entity {
 type HistoricalPoolPriceData @entity {
   "PoolId-paraChainBlockHeight"
   id: ID!
-  poolType: PoolType!
   assetABalance: BigInt!
   assetBBalance: BigInt!
   pool: Pool!

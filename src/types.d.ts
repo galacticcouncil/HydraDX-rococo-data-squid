@@ -31,7 +31,6 @@ interface PoolCreatedEvent {
   assetBId: number;
   assetABalance: bigint;
   assetBBalance: bigint;
-  poolType: PoolType;
   createdAt: Date;
   createdAtParaBlock: number;
   lbpPoolData?: LBPPoolDataUpdate;
@@ -39,7 +38,6 @@ interface PoolCreatedEvent {
 
 interface PoolPriceData {
   id: string;
-  poolType: PoolType;
   assetABalance: bigint;
   assetBBalance: bigint;
   pool: Pool;

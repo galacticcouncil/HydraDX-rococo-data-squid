@@ -1,16 +1,14 @@
 import { In } from "typeorm";
 import { BatchBlock } from "@subsquid/substrate-processor";
 import * as hexUtil from "@subsquid/util-internal-hex";
-import * as ss58 from "@subsquid/ss58";
-import { Store, TypeormDatabase } from "@subsquid/typeorm-store";
-import { ProcessorContext, processor } from "./processor";
+import { TypeormDatabase } from "@subsquid/typeorm-store";
+import { processor } from "./processor";
 import { SystemAccountStorage, TokensAccountsStorage } from "./types/storage";
 import {
   Account,
   HistoricalPoolPriceData,
   LBPPoolData,
   Pool,
-  PoolType,
   Transfer,
 } from "./model";
 import {
@@ -23,9 +21,9 @@ import { ParachainSystemSetValidationDataCall } from "./types/calls";
 import { isNotNullOrUndefined } from "./helpers";
 
 processor.run(new TypeormDatabase(), async (ctx) => {
-  const transfersData = getTransfers(ctx);
   const poolsData = await getPools(ctx);
   const lbpPoolsUpdates = await getLBPPoolUpdates(ctx);
+  const transfersData = await getTransfers(ctx, poolsData);
 
   let accountIds = new Set<string>();
   for (let t of transfersData) {
@@ -43,8 +41,6 @@ processor.run(new TypeormDatabase(), async (ctx) => {
     accountIds.add(lbpPoolsUpdates[p].owner);
     accountIds.add(lbpPoolsUpdates[p].feeCollector);
   }
-
-  //console.log('WOOO', JSON.stringify(accountIds.entries()))
 
   let accounts = accountIds
     ? await ctx.store
@@ -85,7 +81,6 @@ processor.run(new TypeormDatabase(), async (ctx) => {
       assetBId,
       assetABalance,
       assetBBalance,
-      poolType,
       createdAt,
       createdAtParaBlock,
       lbpPoolData,
@@ -97,6 +92,8 @@ processor.run(new TypeormDatabase(), async (ctx) => {
         new LBPPoolData({
           id: id,
           owner: getAccount(accounts, lbpPoolData.owner),
+          startBlockNumber: lbpPoolData.startBlockNumber,
+          endBlockNumber: lbpPoolData.endBlockNumber,
           feeCollector: getAccount(accounts, lbpPoolData.feeCollector),
           fee: lbpPoolData.fee,
           initialWeight: lbpPoolData.initialWeight,
@@ -114,7 +111,6 @@ processor.run(new TypeormDatabase(), async (ctx) => {
         assetBBalance,
         createdAt,
         createdAtParaBlock,
-        poolType,
       })
     );
   }
@@ -154,7 +150,6 @@ async function getLBPPoolUpdates(ctx: Ctx) {
   for (let block of ctx.blocks) {
     for (let item of block.items) {
       if (item.name == "LBP.PoolUpdated") {
-        //const { poolData, poolId } = parseLBPPoolUpdates(ctx, item, currentEnv)
         const e = new LbpPoolUpdatedEvent(ctx, item.event);
 
         const data = e.asV174.data;
@@ -169,7 +164,6 @@ async function getLBPPoolUpdates(ctx: Ctx) {
           feeCollector: hexUtil.toHex(data.feeCollector),
           owner: hexUtil.toHex(data.owner),
         };
-        // updates[hexUtil.toHex(poolId)] = poolData
       }
     }
   }
@@ -184,11 +178,6 @@ async function getPoolPriceData(
   for (let block of ctx.blocks) {
     for (let item of block.items) {
       if (item.name == "ParachainSystem.set_validation_data") {
-        // const { relayChainBlockNumber } = parseParachainSystemValidationData(
-        //   ctx,
-        //   item,
-        //   currentEnv
-        // )
         let c = new ParachainSystemSetValidationDataCall(ctx, item.call);
         const relayChainBlockNumber =
           c.asV109.data.validationData.relayParentNumber;
@@ -209,7 +198,6 @@ async function getPoolPriceData(
                 ]).then(([assetABalance, assetBBalance]) => {
                   resolve({
                     id: p.id + "-" + parachainBlockNumber,
-                    poolType: p.poolType,
                     assetABalance: assetABalance,
                     assetBBalance: assetBBalance,
                     pool: p,
@@ -227,7 +215,7 @@ async function getPoolPriceData(
   return (await Promise.all(poolPrices)).filter(isNotNullOrUndefined);
 }
 
-function getTransfers(ctx: Ctx): TransferEvent[] {
+function getTransfers(ctx: Ctx, pools: PoolCreatedEvent[]): TransferEvent[] {
   let transfers: TransferEvent[] = [];
   for (let block of ctx.blocks) {
     for (let item of block.items) {
@@ -237,34 +225,38 @@ function getTransfers(ctx: Ctx): TransferEvent[] {
         const { from, to, amount } = (() => {
           return { ...e.asV109 };
         })();
-        transfers.push({
-          id: item.event.id,
-          assetId: 0,
-          blockNumber: block.header.height,
-          timestamp: new Date(block.header.timestamp),
-          extrinsicHash: item.event.extrinsic?.hash,
-          from: hexUtil.toHex(from),
-          to: hexUtil.toHex(to),
-          amount: amount,
-          fee: item.event.extrinsic?.fee || 0n,
-        });
+        if (isPoolTransfer(pools, hexUtil.toHex(from), hexUtil.toHex(to))) {
+          transfers.push({
+            id: item.event.id,
+            assetId: 0,
+            blockNumber: block.header.height,
+            timestamp: new Date(block.header.timestamp),
+            extrinsicHash: item.event.extrinsic?.hash,
+            from: hexUtil.toHex(from),
+            to: hexUtil.toHex(to),
+            amount: amount,
+            fee: item.event.extrinsic?.fee || 0n,
+          });
+        }
       } else if (item.name == "Tokens.Transfer") {
         let e = new TokensTransferEvent(ctx, item.event);
         //TODO: Extract production
         const { currencyId, from, to, amount } = (() => {
           return { ...e.asV109 };
         })();
-        transfers.push({
-          id: item.event.id,
-          assetId: currencyId,
-          blockNumber: block.header.height,
-          timestamp: new Date(block.header.timestamp),
-          extrinsicHash: item.event.extrinsic?.hash,
-          from: hexUtil.toHex(from),
-          to: hexUtil.toHex(to),
-          amount: amount,
-          fee: item.event.extrinsic?.fee || 0n,
-        });
+        if (isPoolTransfer(pools, hexUtil.toHex(from), hexUtil.toHex(to))) {
+          transfers.push({
+            id: item.event.id,
+            assetId: currencyId,
+            blockNumber: block.header.height,
+            timestamp: new Date(block.header.timestamp),
+            extrinsicHash: item.event.extrinsic?.hash,
+            from: hexUtil.toHex(from),
+            to: hexUtil.toHex(to),
+            amount: amount,
+            fee: item.event.extrinsic?.fee || 0n,
+          });
+        }
       }
     }
   }
@@ -304,7 +296,6 @@ async function getPools(ctx: Ctx): Promise<PoolCreatedEvent[]> {
           assetBBalance,
           createdAt: new Date(block.header.timestamp),
           createdAtParaBlock: block.header.height,
-          poolType: PoolType.LBP,
           lbpPoolData: {
             owner: hexUtil.toHex(data.owner),
             feeCollector: hexUtil.toHex(data.feeCollector),
@@ -327,6 +318,17 @@ function getAccount(m: Map<string, Account>, id: string): Account {
     m.set(id, acc);
   }
   return acc;
+}
+
+function isPoolTransfer(
+  pools: PoolCreatedEvent[],
+  from: string,
+  to: string
+): boolean {
+  for (let p of pools) {
+    if (p.id == from || p.id == to) return true;
+  }
+  return false;
 }
 
 async function getAssetBalance(

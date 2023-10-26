@@ -1,6 +1,5 @@
 import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, ManyToOne as ManyToOne_, Index as Index_} from "typeorm"
 import * as marshal from "./marshal"
-import {PoolType} from "./_poolType"
 import {Pool} from "./pool.model"
 import {BlockHeader} from "./blockHeader.model"
 
@@ -15,9 +14,6 @@ export class HistoricalPoolPriceData {
      */
     @PrimaryColumn_()
     id!: string
-
-    @Column_("varchar", {length: 3, nullable: false})
-    poolType!: PoolType
 
     @Column_("numeric", {transformer: marshal.bigintTransformer, nullable: false})
     assetABalance!: bigint

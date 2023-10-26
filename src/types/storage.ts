@@ -14,6 +14,9 @@ import * as v164 from './v164'
 import * as v170 from './v170'
 import * as v172 from './v172'
 import * as v174 from './v174'
+import * as v178 from './v178'
+import * as v180 from './v180'
+import * as v183 from './v183'
 
 export class AssetRegistryAssetIdsStorage extends StorageBase {
     protected getPrefix() {
@@ -1724,6 +1727,36 @@ export class CouncilProposalOfStorage extends StorageBase {
         assert(this.isV174)
         return this as any
     }
+
+    /**
+     *  Actual proposal for a given hash, if it's current.
+     */
+    get isV178(): boolean {
+        return this.getTypeHash() === 'e39cc633e1d1feeb2a2726972ec27849cb3e02552b7609dbcc8141eebbae082d'
+    }
+
+    /**
+     *  Actual proposal for a given hash, if it's current.
+     */
+    get asV178(): CouncilProposalOfStorageV178 {
+        assert(this.isV178)
+        return this as any
+    }
+
+    /**
+     *  Actual proposal for a given hash, if it's current.
+     */
+    get isV180(): boolean {
+        return this.getTypeHash() === '3db30cb65c21288fc487ac2409e2342c06846038331e7aaa5182cefe5bffc195'
+    }
+
+    /**
+     *  Actual proposal for a given hash, if it's current.
+     */
+    get asV180(): CouncilProposalOfStorageV180 {
+        assert(this.isV180)
+        return this as any
+    }
 }
 
 /**
@@ -1928,6 +1961,40 @@ export interface CouncilProposalOfStorageV174 {
     getPairs(key: Uint8Array): Promise<[k: Uint8Array, v: v174.Call][]>
     getPairsPaged(pageSize: number): AsyncIterable<[k: Uint8Array, v: v174.Call][]>
     getPairsPaged(pageSize: number, key: Uint8Array): AsyncIterable<[k: Uint8Array, v: v174.Call][]>
+}
+
+/**
+ *  Actual proposal for a given hash, if it's current.
+ */
+export interface CouncilProposalOfStorageV178 {
+    get(key: Uint8Array): Promise<(v178.Call | undefined)>
+    getAll(): Promise<v178.Call[]>
+    getMany(keys: Uint8Array[]): Promise<(v178.Call | undefined)[]>
+    getKeys(): Promise<Uint8Array[]>
+    getKeys(key: Uint8Array): Promise<Uint8Array[]>
+    getKeysPaged(pageSize: number): AsyncIterable<Uint8Array[]>
+    getKeysPaged(pageSize: number, key: Uint8Array): AsyncIterable<Uint8Array[]>
+    getPairs(): Promise<[k: Uint8Array, v: v178.Call][]>
+    getPairs(key: Uint8Array): Promise<[k: Uint8Array, v: v178.Call][]>
+    getPairsPaged(pageSize: number): AsyncIterable<[k: Uint8Array, v: v178.Call][]>
+    getPairsPaged(pageSize: number, key: Uint8Array): AsyncIterable<[k: Uint8Array, v: v178.Call][]>
+}
+
+/**
+ *  Actual proposal for a given hash, if it's current.
+ */
+export interface CouncilProposalOfStorageV180 {
+    get(key: Uint8Array): Promise<(v180.Call | undefined)>
+    getAll(): Promise<v180.Call[]>
+    getMany(keys: Uint8Array[]): Promise<(v180.Call | undefined)[]>
+    getKeys(): Promise<Uint8Array[]>
+    getKeys(key: Uint8Array): Promise<Uint8Array[]>
+    getKeysPaged(pageSize: number): AsyncIterable<Uint8Array[]>
+    getKeysPaged(pageSize: number, key: Uint8Array): AsyncIterable<Uint8Array[]>
+    getPairs(): Promise<[k: Uint8Array, v: v180.Call][]>
+    getPairs(key: Uint8Array): Promise<[k: Uint8Array, v: v180.Call][]>
+    getPairsPaged(pageSize: number): AsyncIterable<[k: Uint8Array, v: v180.Call][]>
+    getPairsPaged(pageSize: number, key: Uint8Array): AsyncIterable<[k: Uint8Array, v: v180.Call][]>
 }
 
 export class CouncilProposalsStorage extends StorageBase {
@@ -7294,6 +7361,94 @@ export interface SessionValidatorsStorageV109 {
     get(): Promise<Uint8Array[]>
 }
 
+export class StableswapAssetTradabilityStorage extends StorageBase {
+    protected getPrefix() {
+        return 'Stableswap'
+    }
+
+    protected getName() {
+        return 'AssetTradability'
+    }
+
+    /**
+     *  Tradability state of pool assets.
+     */
+    get isV178(): boolean {
+        return this.getTypeHash() === 'fc4b351202ccc0b4e683c255c2c41a11a99314d78c41f3c57d487561dda1e5ae'
+    }
+
+    /**
+     *  Tradability state of pool assets.
+     */
+    get asV178(): StableswapAssetTradabilityStorageV178 {
+        assert(this.isV178)
+        return this as any
+    }
+}
+
+/**
+ *  Tradability state of pool assets.
+ */
+export interface StableswapAssetTradabilityStorageV178 {
+    get(key1: number, key2: number): Promise<v178.Tradability>
+    getAll(): Promise<v178.Tradability[]>
+    getMany(keys: [number, number][]): Promise<v178.Tradability[]>
+    getKeys(): Promise<[number, number][]>
+    getKeys(key1: number): Promise<[number, number][]>
+    getKeys(key1: number, key2: number): Promise<[number, number][]>
+    getKeysPaged(pageSize: number): AsyncIterable<[number, number][]>
+    getKeysPaged(pageSize: number, key1: number): AsyncIterable<[number, number][]>
+    getKeysPaged(pageSize: number, key1: number, key2: number): AsyncIterable<[number, number][]>
+    getPairs(): Promise<[k: [number, number], v: v178.Tradability][]>
+    getPairs(key1: number): Promise<[k: [number, number], v: v178.Tradability][]>
+    getPairs(key1: number, key2: number): Promise<[k: [number, number], v: v178.Tradability][]>
+    getPairsPaged(pageSize: number): AsyncIterable<[k: [number, number], v: v178.Tradability][]>
+    getPairsPaged(pageSize: number, key1: number): AsyncIterable<[k: [number, number], v: v178.Tradability][]>
+    getPairsPaged(pageSize: number, key1: number, key2: number): AsyncIterable<[k: [number, number], v: v178.Tradability][]>
+}
+
+export class StableswapPoolsStorage extends StorageBase {
+    protected getPrefix() {
+        return 'Stableswap'
+    }
+
+    protected getName() {
+        return 'Pools'
+    }
+
+    /**
+     *  Existing pools
+     */
+    get isV178(): boolean {
+        return this.getTypeHash() === '39ba762e39ca66eefa42e9c2303464e978aa61ea12a85ea23b66d0bf70697ffb'
+    }
+
+    /**
+     *  Existing pools
+     */
+    get asV178(): StableswapPoolsStorageV178 {
+        assert(this.isV178)
+        return this as any
+    }
+}
+
+/**
+ *  Existing pools
+ */
+export interface StableswapPoolsStorageV178 {
+    get(key: number): Promise<(v178.PoolInfo | undefined)>
+    getAll(): Promise<v178.PoolInfo[]>
+    getMany(keys: number[]): Promise<(v178.PoolInfo | undefined)[]>
+    getKeys(): Promise<number[]>
+    getKeys(key: number): Promise<number[]>
+    getKeysPaged(pageSize: number): AsyncIterable<number[]>
+    getKeysPaged(pageSize: number, key: number): AsyncIterable<number[]>
+    getPairs(): Promise<[k: number, v: v178.PoolInfo][]>
+    getPairs(key: number): Promise<[k: number, v: v178.PoolInfo][]>
+    getPairsPaged(pageSize: number): AsyncIterable<[k: number, v: v178.PoolInfo][]>
+    getPairsPaged(pageSize: number, key: number): AsyncIterable<[k: number, v: v178.PoolInfo][]>
+}
+
 export class StakingNextPositionIdStorage extends StorageBase {
     protected getPrefix() {
         return 'Staking'
@@ -8125,6 +8280,87 @@ export class SystemEventsStorage extends StorageBase {
         assert(this.isV174)
         return this as any
     }
+
+    /**
+     *  Events deposited for the current block.
+     * 
+     *  NOTE: The item is unbound and should therefore never be read on chain.
+     *  It could otherwise inflate the PoV size of a block.
+     * 
+     *  Events have a large in-memory size. Box the events to not go out-of-memory
+     *  just in case someone still reads them from within the runtime.
+     */
+    get isV178(): boolean {
+        return this.getTypeHash() === '6fd9fb24f16cabfeb4b4cd540e75ae6d3a3d405732c79c71931e895e94ef45a9'
+    }
+
+    /**
+     *  Events deposited for the current block.
+     * 
+     *  NOTE: The item is unbound and should therefore never be read on chain.
+     *  It could otherwise inflate the PoV size of a block.
+     * 
+     *  Events have a large in-memory size. Box the events to not go out-of-memory
+     *  just in case someone still reads them from within the runtime.
+     */
+    get asV178(): SystemEventsStorageV178 {
+        assert(this.isV178)
+        return this as any
+    }
+
+    /**
+     *  Events deposited for the current block.
+     * 
+     *  NOTE: The item is unbound and should therefore never be read on chain.
+     *  It could otherwise inflate the PoV size of a block.
+     * 
+     *  Events have a large in-memory size. Box the events to not go out-of-memory
+     *  just in case someone still reads them from within the runtime.
+     */
+    get isV180(): boolean {
+        return this.getTypeHash() === '3768bcdb0b91b960bf911ec19060b83dc0c087bfaf5232308a1e79b2ba0535ef'
+    }
+
+    /**
+     *  Events deposited for the current block.
+     * 
+     *  NOTE: The item is unbound and should therefore never be read on chain.
+     *  It could otherwise inflate the PoV size of a block.
+     * 
+     *  Events have a large in-memory size. Box the events to not go out-of-memory
+     *  just in case someone still reads them from within the runtime.
+     */
+    get asV180(): SystemEventsStorageV180 {
+        assert(this.isV180)
+        return this as any
+    }
+
+    /**
+     *  Events deposited for the current block.
+     * 
+     *  NOTE: The item is unbound and should therefore never be read on chain.
+     *  It could otherwise inflate the PoV size of a block.
+     * 
+     *  Events have a large in-memory size. Box the events to not go out-of-memory
+     *  just in case someone still reads them from within the runtime.
+     */
+    get isV183(): boolean {
+        return this.getTypeHash() === 'ec27bc0d281ae7bfce8f07e8024019483f05f6ad8f52810ff2feb7a0ffe21ec5'
+    }
+
+    /**
+     *  Events deposited for the current block.
+     * 
+     *  NOTE: The item is unbound and should therefore never be read on chain.
+     *  It could otherwise inflate the PoV size of a block.
+     * 
+     *  Events have a large in-memory size. Box the events to not go out-of-memory
+     *  just in case someone still reads them from within the runtime.
+     */
+    get asV183(): SystemEventsStorageV183 {
+        assert(this.isV183)
+        return this as any
+    }
 }
 
 /**
@@ -8278,6 +8514,45 @@ export interface SystemEventsStorageV172 {
  */
 export interface SystemEventsStorageV174 {
     get(): Promise<v174.EventRecord[]>
+}
+
+/**
+ *  Events deposited for the current block.
+ * 
+ *  NOTE: The item is unbound and should therefore never be read on chain.
+ *  It could otherwise inflate the PoV size of a block.
+ * 
+ *  Events have a large in-memory size. Box the events to not go out-of-memory
+ *  just in case someone still reads them from within the runtime.
+ */
+export interface SystemEventsStorageV178 {
+    get(): Promise<v178.EventRecord[]>
+}
+
+/**
+ *  Events deposited for the current block.
+ * 
+ *  NOTE: The item is unbound and should therefore never be read on chain.
+ *  It could otherwise inflate the PoV size of a block.
+ * 
+ *  Events have a large in-memory size. Box the events to not go out-of-memory
+ *  just in case someone still reads them from within the runtime.
+ */
+export interface SystemEventsStorageV180 {
+    get(): Promise<v180.EventRecord[]>
+}
+
+/**
+ *  Events deposited for the current block.
+ * 
+ *  NOTE: The item is unbound and should therefore never be read on chain.
+ *  It could otherwise inflate the PoV size of a block.
+ * 
+ *  Events have a large in-memory size. Box the events to not go out-of-memory
+ *  just in case someone still reads them from within the runtime.
+ */
+export interface SystemEventsStorageV183 {
+    get(): Promise<v183.EventRecord[]>
 }
 
 export class SystemExecutionPhaseStorage extends StorageBase {
@@ -8833,6 +9108,36 @@ export class TechnicalCommitteeProposalOfStorage extends StorageBase {
         assert(this.isV174)
         return this as any
     }
+
+    /**
+     *  Actual proposal for a given hash, if it's current.
+     */
+    get isV178(): boolean {
+        return this.getTypeHash() === 'e39cc633e1d1feeb2a2726972ec27849cb3e02552b7609dbcc8141eebbae082d'
+    }
+
+    /**
+     *  Actual proposal for a given hash, if it's current.
+     */
+    get asV178(): TechnicalCommitteeProposalOfStorageV178 {
+        assert(this.isV178)
+        return this as any
+    }
+
+    /**
+     *  Actual proposal for a given hash, if it's current.
+     */
+    get isV180(): boolean {
+        return this.getTypeHash() === '3db30cb65c21288fc487ac2409e2342c06846038331e7aaa5182cefe5bffc195'
+    }
+
+    /**
+     *  Actual proposal for a given hash, if it's current.
+     */
+    get asV180(): TechnicalCommitteeProposalOfStorageV180 {
+        assert(this.isV180)
+        return this as any
+    }
 }
 
 /**
@@ -9037,6 +9342,40 @@ export interface TechnicalCommitteeProposalOfStorageV174 {
     getPairs(key: Uint8Array): Promise<[k: Uint8Array, v: v174.Call][]>
     getPairsPaged(pageSize: number): AsyncIterable<[k: Uint8Array, v: v174.Call][]>
     getPairsPaged(pageSize: number, key: Uint8Array): AsyncIterable<[k: Uint8Array, v: v174.Call][]>
+}
+
+/**
+ *  Actual proposal for a given hash, if it's current.
+ */
+export interface TechnicalCommitteeProposalOfStorageV178 {
+    get(key: Uint8Array): Promise<(v178.Call | undefined)>
+    getAll(): Promise<v178.Call[]>
+    getMany(keys: Uint8Array[]): Promise<(v178.Call | undefined)[]>
+    getKeys(): Promise<Uint8Array[]>
+    getKeys(key: Uint8Array): Promise<Uint8Array[]>
+    getKeysPaged(pageSize: number): AsyncIterable<Uint8Array[]>
+    getKeysPaged(pageSize: number, key: Uint8Array): AsyncIterable<Uint8Array[]>
+    getPairs(): Promise<[k: Uint8Array, v: v178.Call][]>
+    getPairs(key: Uint8Array): Promise<[k: Uint8Array, v: v178.Call][]>
+    getPairsPaged(pageSize: number): AsyncIterable<[k: Uint8Array, v: v178.Call][]>
+    getPairsPaged(pageSize: number, key: Uint8Array): AsyncIterable<[k: Uint8Array, v: v178.Call][]>
+}
+
+/**
+ *  Actual proposal for a given hash, if it's current.
+ */
+export interface TechnicalCommitteeProposalOfStorageV180 {
+    get(key: Uint8Array): Promise<(v180.Call | undefined)>
+    getAll(): Promise<v180.Call[]>
+    getMany(keys: Uint8Array[]): Promise<(v180.Call | undefined)[]>
+    getKeys(): Promise<Uint8Array[]>
+    getKeys(key: Uint8Array): Promise<Uint8Array[]>
+    getKeysPaged(pageSize: number): AsyncIterable<Uint8Array[]>
+    getKeysPaged(pageSize: number, key: Uint8Array): AsyncIterable<Uint8Array[]>
+    getPairs(): Promise<[k: Uint8Array, v: v180.Call][]>
+    getPairs(key: Uint8Array): Promise<[k: Uint8Array, v: v180.Call][]>
+    getPairsPaged(pageSize: number): AsyncIterable<[k: Uint8Array, v: v180.Call][]>
+    getPairsPaged(pageSize: number, key: Uint8Array): AsyncIterable<[k: Uint8Array, v: v180.Call][]>
 }
 
 export class TechnicalCommitteeProposalsStorage extends StorageBase {
@@ -10404,6 +10743,132 @@ export interface VestingVestingSchedulesStorageV109 {
     getPairs(key: Uint8Array): Promise<[k: Uint8Array, v: v109.VestingSchedule[]][]>
     getPairsPaged(pageSize: number): AsyncIterable<[k: Uint8Array, v: v109.VestingSchedule[]][]>
     getPairsPaged(pageSize: number, key: Uint8Array): AsyncIterable<[k: Uint8Array, v: v109.VestingSchedule[]][]>
+}
+
+export class XYKPoolAssetsStorage extends StorageBase {
+    protected getPrefix() {
+        return 'XYK'
+    }
+
+    protected getName() {
+        return 'PoolAssets'
+    }
+
+    /**
+     *  Asset pair in a pool.
+     */
+    get isV180(): boolean {
+        return this.getTypeHash() === '2072b6dc95511eafaaa8d3c8e8abab0becedb083c12e24f0be979006686149cd'
+    }
+
+    /**
+     *  Asset pair in a pool.
+     */
+    get asV180(): XYKPoolAssetsStorageV180 {
+        assert(this.isV180)
+        return this as any
+    }
+}
+
+/**
+ *  Asset pair in a pool.
+ */
+export interface XYKPoolAssetsStorageV180 {
+    get(key: Uint8Array): Promise<([number, number] | undefined)>
+    getAll(): Promise<[number, number][]>
+    getMany(keys: Uint8Array[]): Promise<([number, number] | undefined)[]>
+    getKeys(): Promise<Uint8Array[]>
+    getKeys(key: Uint8Array): Promise<Uint8Array[]>
+    getKeysPaged(pageSize: number): AsyncIterable<Uint8Array[]>
+    getKeysPaged(pageSize: number, key: Uint8Array): AsyncIterable<Uint8Array[]>
+    getPairs(): Promise<[k: Uint8Array, v: [number, number]][]>
+    getPairs(key: Uint8Array): Promise<[k: Uint8Array, v: [number, number]][]>
+    getPairsPaged(pageSize: number): AsyncIterable<[k: Uint8Array, v: [number, number]][]>
+    getPairsPaged(pageSize: number, key: Uint8Array): AsyncIterable<[k: Uint8Array, v: [number, number]][]>
+}
+
+export class XYKShareTokenStorage extends StorageBase {
+    protected getPrefix() {
+        return 'XYK'
+    }
+
+    protected getName() {
+        return 'ShareToken'
+    }
+
+    /**
+     *  Asset id storage for shared pool tokens
+     */
+    get isV180(): boolean {
+        return this.getTypeHash() === '25f0d63900988134e6767c7fe398885c0448fd3bd7a0d8ff90cf6b33a482cebd'
+    }
+
+    /**
+     *  Asset id storage for shared pool tokens
+     */
+    get asV180(): XYKShareTokenStorageV180 {
+        assert(this.isV180)
+        return this as any
+    }
+}
+
+/**
+ *  Asset id storage for shared pool tokens
+ */
+export interface XYKShareTokenStorageV180 {
+    get(key: Uint8Array): Promise<number>
+    getAll(): Promise<number[]>
+    getMany(keys: Uint8Array[]): Promise<number[]>
+    getKeys(): Promise<Uint8Array[]>
+    getKeys(key: Uint8Array): Promise<Uint8Array[]>
+    getKeysPaged(pageSize: number): AsyncIterable<Uint8Array[]>
+    getKeysPaged(pageSize: number, key: Uint8Array): AsyncIterable<Uint8Array[]>
+    getPairs(): Promise<[k: Uint8Array, v: number][]>
+    getPairs(key: Uint8Array): Promise<[k: Uint8Array, v: number][]>
+    getPairsPaged(pageSize: number): AsyncIterable<[k: Uint8Array, v: number][]>
+    getPairsPaged(pageSize: number, key: Uint8Array): AsyncIterable<[k: Uint8Array, v: number][]>
+}
+
+export class XYKTotalLiquidityStorage extends StorageBase {
+    protected getPrefix() {
+        return 'XYK'
+    }
+
+    protected getName() {
+        return 'TotalLiquidity'
+    }
+
+    /**
+     *  Total liquidity in a pool.
+     */
+    get isV180(): boolean {
+        return this.getTypeHash() === '0bac40afaf72ceea5a87ae2baaa5fe7f69915323f3293bdd970e7790a9d968c0'
+    }
+
+    /**
+     *  Total liquidity in a pool.
+     */
+    get asV180(): XYKTotalLiquidityStorageV180 {
+        assert(this.isV180)
+        return this as any
+    }
+}
+
+/**
+ *  Total liquidity in a pool.
+ */
+export interface XYKTotalLiquidityStorageV180 {
+    get(key: Uint8Array): Promise<bigint>
+    getAll(): Promise<bigint[]>
+    getMany(keys: Uint8Array[]): Promise<bigint[]>
+    getKeys(): Promise<Uint8Array[]>
+    getKeys(key: Uint8Array): Promise<Uint8Array[]>
+    getKeysPaged(pageSize: number): AsyncIterable<Uint8Array[]>
+    getKeysPaged(pageSize: number, key: Uint8Array): AsyncIterable<Uint8Array[]>
+    getPairs(): Promise<[k: Uint8Array, v: bigint][]>
+    getPairs(key: Uint8Array): Promise<[k: Uint8Array, v: bigint][]>
+    getPairsPaged(pageSize: number): AsyncIterable<[k: Uint8Array, v: bigint][]>
+    getPairsPaged(pageSize: number, key: Uint8Array): AsyncIterable<[k: Uint8Array, v: bigint][]>
 }
 
 export class XcmpQueueCounterForOverweightStorage extends StorageBase {

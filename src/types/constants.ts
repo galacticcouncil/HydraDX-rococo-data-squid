@@ -5,6 +5,7 @@ import * as v115 from './v115'
 import * as v142 from './v142'
 import * as v155 from './v155'
 import * as v164 from './v164'
+import * as v178 from './v178'
 
 export class AssetRegistryNativeAssetIdConstant {
     private readonly _chain: Chain
@@ -3077,6 +3078,96 @@ export class SchedulerMaximumWeightConstant {
     }
 }
 
+export class StableswapAmplificationRangeConstant {
+    private readonly _chain: Chain
+
+    constructor(ctx: ChainContext) {
+        this._chain = ctx._chain
+    }
+
+    /**
+     *  Amplification inclusive range. Pool's amp can be selected from the range only.
+     */
+    get isV178() {
+        return this._chain.getConstantTypeHash('Stableswap', 'AmplificationRange') === 'db88d44fa24f0f4659f1f895040f3018bffd90fcf0186e68f910b9b921a46e1e'
+    }
+
+    /**
+     *  Amplification inclusive range. Pool's amp can be selected from the range only.
+     */
+    get asV178(): v178.RangeInclusive {
+        assert(this.isV178)
+        return this._chain.getConstant('Stableswap', 'AmplificationRange')
+    }
+
+    /**
+     * Checks whether the constant is defined for the current chain version.
+     */
+    get isExists(): boolean {
+        return this._chain.getConstantTypeHash('Stableswap', 'AmplificationRange') != null
+    }
+}
+
+export class StableswapMinPoolLiquidityConstant {
+    private readonly _chain: Chain
+
+    constructor(ctx: ChainContext) {
+        this._chain = ctx._chain
+    }
+
+    /**
+     *  Minimum pool liquidity
+     */
+    get isV178() {
+        return this._chain.getConstantTypeHash('Stableswap', 'MinPoolLiquidity') === 'a73c503ad07b8dce07ffc3646a2c7aeacb1280015e3b79887f6a9b11dae120f1'
+    }
+
+    /**
+     *  Minimum pool liquidity
+     */
+    get asV178(): bigint {
+        assert(this.isV178)
+        return this._chain.getConstant('Stableswap', 'MinPoolLiquidity')
+    }
+
+    /**
+     * Checks whether the constant is defined for the current chain version.
+     */
+    get isExists(): boolean {
+        return this._chain.getConstantTypeHash('Stableswap', 'MinPoolLiquidity') != null
+    }
+}
+
+export class StableswapMinTradingLimitConstant {
+    private readonly _chain: Chain
+
+    constructor(ctx: ChainContext) {
+        this._chain = ctx._chain
+    }
+
+    /**
+     *  Minimum trading amount
+     */
+    get isV178() {
+        return this._chain.getConstantTypeHash('Stableswap', 'MinTradingLimit') === 'a73c503ad07b8dce07ffc3646a2c7aeacb1280015e3b79887f6a9b11dae120f1'
+    }
+
+    /**
+     *  Minimum trading amount
+     */
+    get asV178(): bigint {
+        assert(this.isV178)
+        return this._chain.getConstant('Stableswap', 'MinTradingLimit')
+    }
+
+    /**
+     * Checks whether the constant is defined for the current chain version.
+     */
+    get isExists(): boolean {
+        return this._chain.getConstantTypeHash('Stableswap', 'MinTradingLimit') != null
+    }
+}
+
 export class StakingActionPointsWeightConstant {
     private readonly _chain: Chain
 
@@ -4646,5 +4737,185 @@ export class XTokensSelfLocationConstant {
      */
     get isExists(): boolean {
         return this._chain.getConstantTypeHash('XTokens', 'SelfLocation') != null
+    }
+}
+
+export class XYKGetExchangeFeeConstant {
+    private readonly _chain: Chain
+
+    constructor(ctx: ChainContext) {
+        this._chain = ctx._chain
+    }
+
+    /**
+     *  Trading fee rate
+     */
+    get isV180() {
+        return this._chain.getConstantTypeHash('XYK', 'GetExchangeFee') === '89667797236ba996cee700097e48264fab1c5603dc68df58a8ff56acf2809f5c'
+    }
+
+    /**
+     *  Trading fee rate
+     */
+    get asV180(): [number, number] {
+        assert(this.isV180)
+        return this._chain.getConstant('XYK', 'GetExchangeFee')
+    }
+
+    /**
+     * Checks whether the constant is defined for the current chain version.
+     */
+    get isExists(): boolean {
+        return this._chain.getConstantTypeHash('XYK', 'GetExchangeFee') != null
+    }
+}
+
+export class XYKMaxInRatioConstant {
+    private readonly _chain: Chain
+
+    constructor(ctx: ChainContext) {
+        this._chain = ctx._chain
+    }
+
+    /**
+     *  Max fraction of pool to sell in single transaction
+     */
+    get isV180() {
+        return this._chain.getConstantTypeHash('XYK', 'MaxInRatio') === 'a73c503ad07b8dce07ffc3646a2c7aeacb1280015e3b79887f6a9b11dae120f1'
+    }
+
+    /**
+     *  Max fraction of pool to sell in single transaction
+     */
+    get asV180(): bigint {
+        assert(this.isV180)
+        return this._chain.getConstant('XYK', 'MaxInRatio')
+    }
+
+    /**
+     * Checks whether the constant is defined for the current chain version.
+     */
+    get isExists(): boolean {
+        return this._chain.getConstantTypeHash('XYK', 'MaxInRatio') != null
+    }
+}
+
+export class XYKMaxOutRatioConstant {
+    private readonly _chain: Chain
+
+    constructor(ctx: ChainContext) {
+        this._chain = ctx._chain
+    }
+
+    /**
+     *  Max fraction of pool to buy in single transaction
+     */
+    get isV180() {
+        return this._chain.getConstantTypeHash('XYK', 'MaxOutRatio') === 'a73c503ad07b8dce07ffc3646a2c7aeacb1280015e3b79887f6a9b11dae120f1'
+    }
+
+    /**
+     *  Max fraction of pool to buy in single transaction
+     */
+    get asV180(): bigint {
+        assert(this.isV180)
+        return this._chain.getConstant('XYK', 'MaxOutRatio')
+    }
+
+    /**
+     * Checks whether the constant is defined for the current chain version.
+     */
+    get isExists(): boolean {
+        return this._chain.getConstantTypeHash('XYK', 'MaxOutRatio') != null
+    }
+}
+
+export class XYKMinPoolLiquidityConstant {
+    private readonly _chain: Chain
+
+    constructor(ctx: ChainContext) {
+        this._chain = ctx._chain
+    }
+
+    /**
+     *  Minimum pool liquidity
+     */
+    get isV180() {
+        return this._chain.getConstantTypeHash('XYK', 'MinPoolLiquidity') === 'a73c503ad07b8dce07ffc3646a2c7aeacb1280015e3b79887f6a9b11dae120f1'
+    }
+
+    /**
+     *  Minimum pool liquidity
+     */
+    get asV180(): bigint {
+        assert(this.isV180)
+        return this._chain.getConstant('XYK', 'MinPoolLiquidity')
+    }
+
+    /**
+     * Checks whether the constant is defined for the current chain version.
+     */
+    get isExists(): boolean {
+        return this._chain.getConstantTypeHash('XYK', 'MinPoolLiquidity') != null
+    }
+}
+
+export class XYKMinTradingLimitConstant {
+    private readonly _chain: Chain
+
+    constructor(ctx: ChainContext) {
+        this._chain = ctx._chain
+    }
+
+    /**
+     *  Minimum trading limit
+     */
+    get isV180() {
+        return this._chain.getConstantTypeHash('XYK', 'MinTradingLimit') === 'a73c503ad07b8dce07ffc3646a2c7aeacb1280015e3b79887f6a9b11dae120f1'
+    }
+
+    /**
+     *  Minimum trading limit
+     */
+    get asV180(): bigint {
+        assert(this.isV180)
+        return this._chain.getConstant('XYK', 'MinTradingLimit')
+    }
+
+    /**
+     * Checks whether the constant is defined for the current chain version.
+     */
+    get isExists(): boolean {
+        return this._chain.getConstantTypeHash('XYK', 'MinTradingLimit') != null
+    }
+}
+
+export class XYKNativeAssetIdConstant {
+    private readonly _chain: Chain
+
+    constructor(ctx: ChainContext) {
+        this._chain = ctx._chain
+    }
+
+    /**
+     *  Native Asset Id
+     */
+    get isV180() {
+        return this._chain.getConstantTypeHash('XYK', 'NativeAssetId') === 'b76f37d33f64f2d9b3234e29034ab4a73ee9da01a61ab139c27f8c841971e469'
+    }
+
+    /**
+     *  Native Asset Id
+     */
+    get asV180(): number {
+        assert(this.isV180)
+        return this._chain.getConstant('XYK', 'NativeAssetId')
+    }
+
+    /**
+     * Checks whether the constant is defined for the current chain version.
+     */
+    get isExists(): boolean {
+        return this._chain.getConstantTypeHash('XYK', 'NativeAssetId') != null
     }
 }

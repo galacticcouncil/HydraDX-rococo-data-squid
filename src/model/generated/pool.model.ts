@@ -1,7 +1,6 @@
 import {Entity as Entity_, Column as Column_, PrimaryColumn as PrimaryColumn_, ManyToOne as ManyToOne_, Index as Index_, OneToMany as OneToMany_} from "typeorm"
 import * as marshal from "./marshal"
 import {Account} from "./account.model"
-import {PoolType} from "./_poolType"
 import {HistoricalPoolPriceData} from "./historicalPoolPriceData.model"
 
 @Entity_()
@@ -28,9 +27,6 @@ export class Pool {
 
     @Column_("numeric", {transformer: marshal.bigintTransformer, nullable: false})
     assetBBalance!: bigint
-
-    @Column_("varchar", {length: 3, nullable: false})
-    poolType!: PoolType
 
     @Column_("int4", {nullable: false})
     createdAtParaBlock!: number
