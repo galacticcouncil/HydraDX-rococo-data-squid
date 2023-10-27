@@ -1,6 +1,6 @@
 manifestVersion: subsquid.io/v0.1
 name: hydradx-rococo-data-squid
-version: 1
+version: 2
 description: "The very first squid from manifest  "
 build:
 deploy:
